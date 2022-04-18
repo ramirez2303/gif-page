@@ -1,32 +1,43 @@
-import { Container, Heading, Image, Stack } from "@chakra-ui/react";
+import { Box, Stack } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
-import Search from "./components/Search";
-import getGif from "./components/getGif";
+import Gifs from "./components/Gifs";
+import NavBar from "./components/NavBar";
+import SearchSection from "./components/SearchSection";
+import getGif from "./services/getGif";
 
 function App() {
   const [allGifs, setGifs] = useState([]);
   const [keyword, setKeyword] = useState("");
+  const [limit, setLimit] = useState(0);
 
-  const handleDoSearch = (word) => {
+  const handleDoSearch = (word, numberLimit) => {
     setKeyword(word);
+    setLimit(numberLimit);
   };
 
   useEffect(() => {
-    getGif({ keyword: keyword }).then((gifs) => setGifs(gifs));
-  }, [keyword]);
+    getGif({ keyword: keyword }, { limit: limit }).then((gifs) =>
+      setGifs(gifs)
+    );
+  }, [keyword, limit]);
 
   return (
-    <div className="App">
-      <Container paddingY={4}>
-        <Stack alignItems="center">
-          <Heading>Gifix Searcher</Heading>
-          <Search onSubmit={handleDoSearch} />
-          {allGifs.map((gif) => (
-            <Image key={gif.id} alt={gif.title} src={gif.url} />
-          ))}
+    <Box
+      className="App"
+      h="100%"
+    >
+      <Box
+        paddingY={4}
+        w="100%"
+        h="100%"
+      >
+        <Stack spacing={6} alignItems="center">
+          <NavBar />
+          <SearchSection handleDoSearch={handleDoSearch} />
+          <Gifs arrGifs={allGifs} />
         </Stack>
-      </Container>
-    </div>
+      </Box>
+    </Box>
   );
 }
 
