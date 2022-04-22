@@ -1,16 +1,11 @@
 import { extendTheme } from "@chakra-ui/react";
 
 export default extendTheme({
-  style: {
+  styles: {
     global: {
       "html, body": {
-        height: "100vh",
-        backgroundColor: "#161a1d",
+        height: "100%",
       },
     },
-  },
-  fonts: {
-    heading: "'Source Code Pro', monospace",
-    body: "'Source Code Pro', monospace",
   },
 });

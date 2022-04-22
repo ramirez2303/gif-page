@@ -1,17 +1,23 @@
 import {
   Box,
-  Button,
   Grid,
   GridItem,
+  Heading,
   Image,
-  Link,
+  Skeleton,
   Stack,
-  Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import GifHoverContent from "./GifHoverContent";
+import useGifs from "../hooks/useGifs";
+import Loading from "./Loading";
 
-const Gifs = ({ arrGifs }) => {
+const Gifs = ({ params }) => {
+  const { keyword } = params;
+  const { limit } = params;
+  const { gifs, isLoading } = useGifs({ keyword }, { limit });
+
   const [mouseEnter, setMouseEnter] = useState(null);
 
   const handleMouseEnter = (i) => {
@@ -25,63 +31,65 @@ const Gifs = ({ arrGifs }) => {
     }
   };
 
-  const handleMouseLeave = (index) => setMouseEnter(null);
+  const handleMouseLeave = () => setMouseEnter(null);
 
-  return (
-    <Grid
-      templateColumns={{
-        base: "repeat(1, 1fr)",
-        sm: "repeat(1, 1fr)",
-        md: "repeat(2, 1fr)",
-        lg: "repeat(3, 1fr)",
-      }}
-      w={{ base: "250px", sm: "auto", md: "auto", lg: "auto" }}
-      gap={10}
-      spacing={0}
-    >
-      {arrGifs.map((gif, i) => {
-        const index = i;
-        return (
-          <GridItem w="300px">
-            <Box
-              key={i + 1}
-              w="300px"
-              h="320px"
-              bgColor="#ae2012"
-              borderRadius="2xl"
-            >
-              <Stack h="70px" justifyContent="center">
-                <Text
-                  fontSize="sm"
-                  fontWeight="700"
-                  textAlign="center"
-                  w="280px"
-                  color="#fff"
-                  margin="auto"
+  if (isLoading) {
+    return (
+      <Loading />
+    );
+  } else {
+    return (
+      <Stack maxW="1250px" spacing={4}>
+        <Heading
+          textTransform="capitalize"
+          borderBottomWidth="3px"
+          fontSize="3xl"
+        >{`${keyword} Results:`}</Heading>
+        <Grid
+          templateColumns={{
+            base: "repeat(1, 300px)",
+            sm: "repeat(1, 300px)",
+            md: "repeat(2, 300px)",
+            lg: "repeat(3, 300px)",
+            xl: "repeat(4, 300px)",
+          }}
+          w={{ base: "250px", sm: "auto", md: "auto", lg: "auto" }}
+          gap={2}
+          spacing={0}
+          justifyContent="center"
+          alignItems="center"
+        >
+          {gifs.map((gif, i) => {
+            const index = i;
+            return (
+              <GridItem w="300px" key={i + 13}>
+                <Box
+                  key={i + 1}
+                  w="300px"
+                  bgColor={useColorModeValue("gray.50", "purple.800")}
                 >
-                  {gif.title}
-                </Text>
-              </Stack>
-              <GifHoverContent
-                mouseEnter={mouseEnter}
-                gif={gif}
-                index={index}
-                handleMouseLeave={handleMouseLeave}
-              />
-              <Image
-                key={gif.id}
-                alt={gif.title}
-                src={gif.url}
-                w="300px"
-                height="250px"
-                onMouseEnter={() => handleMouseEnter(i)}
-              />
-            </Box>
-          </GridItem>
-        );
-      })}
-    </Grid>
-  );
+                  <GifHoverContent
+                    mouseEnter={mouseEnter}
+                    gif={gif}
+                    index={index}
+                    handleMouseLeave={handleMouseLeave}
+                  />
+                  <Image
+                    key={gif.id}
+                    alt={gif.title}
+                    src={gif.url}
+                    w="300px"
+                    height="250px"
+                    onMouseEnter={() => handleMouseEnter(i)}
+                  />
+                </Box>
+              </GridItem>
+            );
+          })}
+        </Grid>
+      </Stack>
+    );
+  }
 };
 
 export default Gifs;

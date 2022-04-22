@@ -9,7 +9,11 @@ function GifHoverContent({ mouseEnter, gif, index, handleMouseLeave }) {
 
   const handleLinkCopyed = (index) => {
     setCopyed(index);
+    setTimeout(() => {
+      setCopyed(null);
+    }, 3000);
   };
+
   return (
     <Stack
       key={index}
@@ -23,42 +27,98 @@ function GifHoverContent({ mouseEnter, gif, index, handleMouseLeave }) {
       justifyContent="center"
       alignItems="center"
       onMouseLeave={handleMouseLeave}
+      spacing={6}
     >
-      {copyed === index ? (
-        <Stack
-          direction="row"
-          paddingX={3}
-          paddingY="8px"
-          borderRadius="lg"
-          bgColor="green.300"
+      <Stack
+        key={index + 12}
+        h="auto"
+        display={gif.title === "" ? "none" : "flex"}
+        justifyContent="center"
+      >
+        <Text
+          key={index + 10}
+          fontSize="sm"
           fontWeight="700"
-          alignItems="center"
-          spacing="1"
-          color="#000"
+          textAlign="center"
+          w="270px"
+          margin="auto"
+          color="#ccc"
         >
-          <Text>Link Copiado</Text>
-          <MdTagFaces size="20px" />
-        </Stack>
-      ) : (
-        <CopyToClipboard text={gif.url}>
-          <Button
-            onClick={() => handleLinkCopyed(index)}
-            colorScheme="blue"
-            rightIcon={<CopyIcon />}
+          {gif.title}
+        </Text>
+      </Stack>
+      {/* copiado y conSource | copiado y sinSource | sinCopiar y sinSource | sinCopiar y conSource */}
+      <Stack>
+        {copyed === index && gif.source !== "" ? (
+          <>
+            <Stack
+              direction="row"
+              paddingX={3}
+              paddingY="8px"
+              borderRadius="lg"
+              bgColor="green.300"
+              fontWeight="700"
+              alignItems="center"
+              spacing="1"
+              color="#000"
+            >
+              <Text>Link Copiado</Text>
+              <MdTagFaces size="20px" />
+            </Stack>
+            <Button colorScheme="white" variant="solid">
+              <Link href={gif.source} color="white" target="_blank">
+                Ir al origen <ExternalLinkIcon mx="1px" />
+              </Link>
+            </Button>
+          </>
+        ) : copyed === index && gif.source === "" ? (
+          <Stack
+            direction="row"
+            paddingX={3}
+            paddingY="8px"
+            borderRadius="lg"
+            bgColor="green.300"
+            fontWeight="700"
+            alignItems="center"
+            spacing="1"
+            color="#000"
           >
-            Copiar Link
-          </Button>
-        </CopyToClipboard>
-      )}
-      {gif.source === "" ? (
-        ""
-      ) : (
-        <Button colorScheme="white" variant="solid">
-          <Link href={gif.source} color="white" target="_blank">
-            Ir al origen <ExternalLinkIcon mx="1px" />
-          </Link>
-        </Button>
-      )}
+            <Text>Link Copiado</Text>
+            <MdTagFaces size="20px" />
+          </Stack>
+        ) : copyed !== index && gif.source === "" ? (
+          <>
+            <CopyToClipboard text={gif.url}>
+              <Button
+                onClick={() => handleLinkCopyed(index)}
+                colorScheme="blue"
+                rightIcon={<CopyIcon />}
+              >
+                Copiar Link
+              </Button>
+            </CopyToClipboard>
+          </>
+        ) : copyed !== index && gif.source !== "" ? (
+          <>
+            <CopyToClipboard text={gif.url}>
+              <Button
+                onClick={() => handleLinkCopyed(index)}
+                colorScheme="blue"
+                rightIcon={<CopyIcon />}
+              >
+                Copiar Link
+              </Button>
+            </CopyToClipboard>
+            <Button colorScheme="white" variant="solid">
+              <Link href={gif.source} color="white" target="_blank">
+                Ir al origen <ExternalLinkIcon mx="1px" />
+              </Link>
+            </Button>
+          </>
+        ) : (
+          ""
+        )}
+      </Stack>
     </Stack>
   );
 }

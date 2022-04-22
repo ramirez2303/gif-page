@@ -1,7 +1,4 @@
 import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
   IconButton,
   Input,
   NumberInput,
@@ -10,14 +7,17 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "wouter";
 
-function Search(props) {
+function Search() {
+  const [path, pushLocation] = useLocation();
+
   const [search, setSearch] = useState("");
-  const [error, setError] = useState(false);
 
   const handleInputChange = (e) => {
     setSearch(e.target.value);
+    setInputValue(e.target.value);
   };
 
   const [limitNumber, setLimit] = useState(0);
@@ -28,58 +28,58 @@ function Search(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (limitNumber && limitNumber > 0) {
-      props.onSubmit(search, limitNumber);
-      setError(false);
+    if (search && limitNumber > 0) {
+      pushLocation(`/search/${search}/${limitNumber}`);
+    } else if (search && !limitNumber) {
+      pushLocation("/error/limit");
+    } else if (!search && limitNumber > 0) {
+      pushLocation("/error/search");
     } else {
-      setError(true);
+      pushLocation("/error/errortotal");
     }
   };
+
   return (
-    <Stack spacing={5}>
+    <Stack spacing={0} alignItems="center">
       <form onSubmit={handleSubmit}>
-        <Stack direction="row">
+        <Stack direction="row" spacing={2} alignItems="center">
           <Input
-            w="150px"
+            w="300px"
+            h="50px"
             type="text"
             placeholder="Search a gif"
             onChange={handleInputChange}
-            borderRadius="20px"
-            _focus={{ border: "2px solid #98f5e1" }}
+            borderRadius="0"
+            _focus={{ border: "2px solid #777" }}
+            bgColor={useColorModeValue("#fff", "#eee")}
+            color="#333"
+            _placeholder={{ color: "#aaa" }}
+            border="none"
           />
           <NumberInput>
             <NumberInputField
               w="100px"
+              h="50px"
               type="number"
-              placeholder="10"
+              placeholder="0"
               onChange={handleLimitInputChange}
-              borderRadius="20px"
-              _focus={{ border: "2px solid #98f5e1" }}
+              borderRadius="0"
+              _focus={{ border: "2px solid #777" }}
+              bgColor={useColorModeValue("#fff", "#eee")}
+              color="#333"
+              _placeholder={{ color: "#aaa" }}
+              border="none"
             />
           </NumberInput>
+
           <IconButton
             type="submit"
-            _hover={{ bgColor: "#a2d2ff" }}
-            _active={{ bgColor: "#a2d2ff" }}
-            // colorScheme={useColorModeValue("cyan", "red")}
-            borderRadius="full"
-            bg="none"
-            icon={
-              <SearchIcon
-                color={useColorModeValue("black", "whiteAlpha.700")}
-              />
-            }
+            variant="outline"
+            colorScheme={useColorModeValue("cyan", "red")}
+            icon={<SearchIcon color={useColorModeValue("black", "white")} />}
           />
         </Stack>
       </form>
-      {error ? (
-        <Alert status="error">
-          <AlertIcon />
-          <AlertTitle mr={2}>You need to put a limit</AlertTitle>
-        </Alert>
-      ) : (
-        ""
-      )}
     </Stack>
   );
 }
