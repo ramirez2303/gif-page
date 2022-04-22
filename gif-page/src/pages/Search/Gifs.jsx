@@ -9,9 +9,9 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import GifHoverContent from "./GifHoverContent";
-import useGifs from "../hooks/useGifs";
-import Loading from "./Loading";
+import GifHoverContent from "../../components/GifHoverContent";
+import useGifs from "../../hooks/useGifs";
+import Loading from "../../components/Loading";
 
 const Gifs = ({ params }) => {
   const { keyword } = params;

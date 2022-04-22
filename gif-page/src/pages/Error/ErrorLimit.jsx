@@ -1,9 +1,9 @@
 import { WarningIcon } from "@chakra-ui/icons";
 import { Flex, Heading, Image, Stack } from "@chakra-ui/react";
 import React from "react";
-import errorImage from "../images/warning-error-svgrepo-com.svg";
+import errorImage from "../../images/warning-error-svgrepo-com.svg";
 
-function ErrorSearch() {
+function ErrorLimit() {
   return (
     <Stack justifyContent="center" alignItems="center" h="400px" spacing={8}>
       <Flex justifyContent="center" alignItems="center">
@@ -16,7 +16,7 @@ function ErrorSearch() {
           fontSize={{ base: "md", sm: "lg", md: "2xl", lg: "4xl" }}
           ml={2}
         >
-          Error: no search specified
+          Error: no search limit added
         </Heading>
       </Flex>
       <Image src={errorImage} w={{base: "120px",sm: "140px",md: "160px", lg: "180px" }} />
@@ -24,4 +24,4 @@ function ErrorSearch() {
   );
 }
 
-export default ErrorSearch;
+export default ErrorLimit;

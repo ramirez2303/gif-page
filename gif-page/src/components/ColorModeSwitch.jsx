@@ -12,7 +12,7 @@ function ColorModeSwitch() {
       <Switch
         position="absolute"
         right="20px"
-        colorScheme="red"
+        colorScheme="yellow"
         onChange={handleToggleColorMode}
         size="lg"
         border="1  px solid"

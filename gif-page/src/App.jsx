@@ -1,14 +1,19 @@
 import { Box, Container, Stack, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 import { Route } from "wouter";
-import ErrorLimit from "./components/ErrorLimit";
-import ErrorSearch from "./components/ErrorSearch";
-import ErrorTotal from "./components/ErrorTotal";
-import Gifs from "./components/Gifs";
-import Home from "./components/Home";
+import ErrorLimit from "./pages/Error/ErrorLimit";
+import ErrorSearch from "./pages/Error/ErrorSearch";
+import ErrorTotal from "./pages/Error/ErrorTotal";
+import Gifs from "./pages/Search/Gifs";
+import Home from "./pages/Home/Home";
 import NavBar from "./components/NavBar";
 import ScrollTopButton from "./components/ScrollTopButton";
 
+/*
+Desaparecer boton toTop en el inicio
+Usar useContext para la pag detalles
+Poner el dark mode en localStorage
+*/
 function App() {
   return (
     <Box className="App" h="100%" w="100%">

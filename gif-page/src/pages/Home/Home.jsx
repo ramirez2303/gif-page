@@ -1,7 +1,7 @@
 import { Container, Heading, Stack } from "@chakra-ui/react";
 import React from "react";
-import TrendingGifs from "./TrendingGifs";
-import HomeSections from "./HomeSections";
+import TrendingGifs from "../../components/TrendingGifs";
+import HomeSections from "../../components/HomeSections";
 
 function Home() {
   return (
