@@ -1,5 +1,7 @@
+import { APY_KEY, APY_URL } from "./settings";
+
 export default function getTrendGifs() {
-  const apiURL = `https://api.giphy.com/v1/gifs/trending?api_key=KNvPf1AGnMAdEt6XqQK1uTgLlKqlt1ia&limit=8&rating=r`;
+  const apiURL = `${APY_URL}/trending?api_key=${APY_KEY}&limit=8&rating=r`;
 
   return fetch(apiURL)
     .then((res) => res.json())

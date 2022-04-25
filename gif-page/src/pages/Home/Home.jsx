@@ -2,28 +2,30 @@ import { Container, Heading, Stack } from "@chakra-ui/react";
 import React from "react";
 import TrendingGifs from "../../components/TrendingGifs";
 import HomeSections from "../../components/HomeSections";
+import Categorys from "../../components/Categorys";
 
 function Home() {
   return (
     <Container maxW="1250px">
       <Stack spacing={14}>
-        <HomeSections title="Last Search" keyword="" />
-        <Stack spacing={8}>
+        <Stack minH="80vh">
+          <HomeSections title="Last Search" keyword="" />
+        </Stack>
+        <Stack spacing={8} minH="80vh">
           <Heading fontSize="3xl" borderBottomWidth="3px">
             Popular Gifs
           </Heading>
           <TrendingGifs />
         </Stack>
-        <HomeSections title="Funny" keyword="funny" />
-        <HomeSections title="Sad" keyword="sad" />
-        <HomeSections title="Angry" keyword="angry" />
-        <HomeSections title="Laught" keyword="laught" />
-        <HomeSections title="Confusion" keyword="confusion" />
-        <HomeSections title="Futbol" keyword="futbol" />
-        <HomeSections title="Sport" keyword="sport" />
+        <Stack spacing={8}>
+          <Heading fontSize="3xl" borderBottomWidth="3px">
+            Popular Categorys
+          </Heading>
+          <Categorys />
+        </Stack>
       </Stack>
     </Container>
   );
 }
 
-export default React.memo(Home);
+export default Home;

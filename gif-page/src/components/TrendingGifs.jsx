@@ -6,36 +6,19 @@ import {
   Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import getTrendGifs from "../services/getTrendGifs";
-import GifHoverContent from "./GifHoverContent";
+import React from "react";
 import Loading from "./Loading";
+import { useLocation } from "wouter";
+import GifMap from "./GifMap";
+import useTrendGifs from "../hooks/useTrendGifs";
 
 function TrendingGifs() {
-  const [popularGif, setPopularGif] = useState([]);
-  const [mouseEnter, setMouseEnter] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const { gifs, isLoading } = useTrendGifs();
+  const [path, pushLocation] = useLocation();
 
-  useEffect(() => {
-    setIsLoading(true);
-    getTrendGifs().then((gifs) => {
-      setPopularGif(gifs);
-      setIsLoading(false);
-    });
-  }, []);
-
-  const handleMouseEnter = (i) => {
-    if (mouseEnter !== i) {
-      setMouseEnter(false);
-      setMouseEnter(i);
-    } else if (mouseEnter === i) {
-      setMouseEnter(false);
-    } else {
-      setMouseEnter(i);
-    }
+  const handleClick = (id) => {
+    pushLocation(`/detail/${id}`);
   };
-
-  const handleMouseLeave = () => setMouseEnter(false);
 
   if (isLoading) {
     return (
@@ -60,35 +43,11 @@ function TrendingGifs() {
         justifyContent="center"
         alignItems="center"
       >
-        {popularGif.map((gif, i) => {
-          const index = i;
-          return (
-            <GridItem w="300px" key={i + 13}>
-              <Box
-                key={i + 1}
-                w="300px"
-                bgColor={useColorModeValue("gray.50", "purple.800")}
-              >
-                <GifHoverContent
-                  mouseEnter={mouseEnter}
-                  gif={gif}
-                  index={index}
-                  handleMouseLeave={handleMouseLeave}
-                />
-                <Image
-                  key={gif.id}
-                  alt={gif.title}
-                  src={gif.url}
-                  w="300px"
-                  height="250px"
-                  onMouseEnter={() => handleMouseEnter(i)}
-                />
-              </Box>
-            </GridItem>
-          );
+        {gifs.map((gif, i) => {
+          return <GifMap key={i + 3} gif={gif} i={i} />;
         })}
       </Grid>
     );
   }
 }
-export default React.memo(TrendingGifs);
+export default TrendingGifs;

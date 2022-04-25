@@ -4,8 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import theme from "./theme";
 
-const root = ReactDOM.createRoot(document.getElementById("app"));
-root.render(
+ReactDOM.createRoot(document.getElementById("app")).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <App />

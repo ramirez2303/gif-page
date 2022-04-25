@@ -8,9 +8,10 @@ import Gifs from "./pages/Search/Gifs";
 import Home from "./pages/Home/Home";
 import NavBar from "./components/NavBar";
 import ScrollTopButton from "./components/ScrollTopButton";
+import Detail from "./pages/Detail/Detail";
+import { GifsContextProvider } from "./context/GifsContext";
 
 /*
-Desaparecer boton toTop en el inicio
 Usar useContext para la pag detalles
 Poner el dark mode en localStorage
 */
@@ -38,11 +39,14 @@ function App() {
           justifyContent="center"
           alignItems="center"
         >
-          <Route component={Home} path="/" />
-          <Route component={Gifs} path="/search/:keyword/:limit" />
-          <Route component={ErrorTotal} path="/error/errortotal" />
-          <Route component={ErrorSearch} path="/error/search" />
-          <Route component={ErrorLimit} path="/error/limit" />
+          <GifsContextProvider>
+            <Route component={Home} path="/" />
+            <Route component={Gifs} path="/search/:keyword/:limit" />
+            <Route component={Detail} path="/detail/:id/:keyword" />
+            <Route component={ErrorTotal} path="/error/errortotal" />
+            <Route component={ErrorSearch} path="/error/search" />
+            <Route component={ErrorLimit} path="/error/limit" />
+          </GifsContextProvider>
         </Stack>
       </Stack>
     </Box>

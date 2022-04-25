@@ -3,32 +3,23 @@ import {
   Grid,
   GridItem,
   Image,
-  Skeleton,
   Stack,
-  Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import GifHoverContent from "./GifHoverContent";
+import React from "react";
+import { useLocation } from "wouter";
 import useGifs from "../hooks/useGifs";
+import GifMap from "./GifMap";
 import Loading from "./Loading";
 
 function HomeGifs({ keyword }) {
-  const { gifs, isLoading } = useGifs({ keyword });
-  const [mouseEnter, setMouseEnter] = useState(null);
+  const { gifs, isLoading } = useGifs({ keyword, limit: 8 });
 
-  const handleMouseEnter = (i) => {
-    if (mouseEnter !== i) {
-      setMouseEnter(false);
-      setMouseEnter(i);
-    } else if (mouseEnter === i) {
-      setMouseEnter(false);
-    } else {
-      setMouseEnter(i);
-    }
+  const [path, pushLocation] = useLocation();
+
+  const handleClick = (id) => {
+    pushLocation(`/detail/${id}`);
   };
-
-  const handleMouseLeave = () => setMouseEnter(null);
 
   if (isLoading) {
     return (
@@ -53,34 +44,10 @@ function HomeGifs({ keyword }) {
         alignItems="center"
       >
         {gifs.map((gif, i) => {
-          const index = i;
-          return (
-            <GridItem w="300px" key={i + 13}>
-              <Box
-                key={i + 1}
-                w="300px"
-                bgColor={useColorModeValue("gray.50", "purple.800")}
-              >
-                <GifHoverContent
-                  mouseEnter={mouseEnter}
-                  gif={gif}
-                  index={index}
-                  handleMouseLeave={handleMouseLeave}
-                />
-                <Image
-                  key={gif.id}
-                  alt={gif.title}
-                  src={gif.url}
-                  w="300px"
-                  height="250px"
-                  onMouseEnter={() => handleMouseEnter(i)}
-                />
-              </Box>
-            </GridItem>
-          );
+          return <GifMap key={i + 2} gif={gif} i={i} />;
         })}
       </Grid>
     );
   }
 }
-export default React.memo(HomeGifs);
+export default HomeGifs;

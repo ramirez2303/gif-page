@@ -7,7 +7,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation } from "wouter";
 
 function Search() {
@@ -17,7 +17,6 @@ function Search() {
 
   const handleInputChange = (e) => {
     setSearch(e.target.value);
-    setInputValue(e.target.value);
   };
 
   const [limitNumber, setLimit] = useState(0);
